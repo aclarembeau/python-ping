@@ -29,17 +29,15 @@ def ping(destination, ip_version=4, num_tries=1, timeout=1, encoding="utf-8"):
     rtt = [0, 0, 0, 0, '']
     packets = [0, 0, 0, 0]
 
-    if len(p_err) > 0: 
+    if p_code != 0: 
         error = p_err
     else: 
         lines = p_out.split("\n") 
         rtt_line = (lines[-2]).split(' ') 
-        rtt = rtt_line[-2].split('/') + [rtt_line[-1]]
+        rtt = list(map(float, rtt_line[-2].split('/'))) + [rtt_line[-1]]
         pack_line = (lines[-3]).split(' ')
-        packets = [pack_line[0], pack_line[3], pack_line[5], pack_line[-1]]
+        packets = [float(pack_line[0]), float(pack_line[3]), pack_line[5], pack_line[-1]]
 
 
     return [packets, rtt, error]
 
-destination = input("Destination? ") 
-print(ping(destination))
